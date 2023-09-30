@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// This constant just adds some clarity
+#define MAX_SIZE 20
+
 int main()
 {
     int size;
@@ -8,25 +11,36 @@ int main()
     printf("Type a number of your multiplication table: ");
     scanf("%d", &size);
 	
-	if(size > 20)
+	if (size > MAX_SIZE)
 	{
-	    printf("Matrix to big.");
+	    printf("Matrix too big.");
 	    return 1;
 	}
 	
-	int **table = (int **) malloc(size * sizeof(int*));
+	int **table = (int **)malloc(size * sizeof(int*));
 	
 	if (table == NULL) {
         printf("Memory allocation failed.\n");
         return 1;
     }
 	
-	for(int r = 0; r < size; r++)
+	for (int r = 0; r < size; r++)
 	{
-	    table[r] = (int *) malloc(size * sizeof(int));
+	    table[r] = (int *)malloc(size * sizeof(int));
+	    if (table[r] == NULL)
+	    {
+	        printf("Memory allocation failed.\n");
+	        // Free previously allocated memory
+	        for (int i = 0; i < r; i++)
+	        {
+	            free(table[i]);
+	        }
+	        free(table);
+	        return 1;
+	    }
 	}
 	
-	for(int r = 0; r < size; r++)
+	for (int r = 0; r < size; r++)
 	{
 	    for(int c = 0; c < size; c++)
 	    {
@@ -35,9 +49,9 @@ int main()
 	}
 
 	printf("    ");
-	for(int i = 1; i <= size; i++)
+	for (int i = 1; i <= size; i++)
 	{
-	    if(i < 10)
+	    if (i < 10)
 	    {
 	    printf("   %d", i);
 	    }
@@ -47,9 +61,9 @@ int main()
 	    }
 	}
 	printf("\n");
-	for(int c = 1; c <= size; c++)
+	for (int c = 1; c <= size; c++)
 	{
-	    if(c < 10)
+	    if (c < 10)
 	    {
 	    printf("   %d", c);
 	    }
@@ -57,14 +71,14 @@ int main()
 	    {
 	        printf("  %d", c);
 	    }
-	    for(int r = 0; r < size; r++)
+	    for (int r = 0; r < size; r++)
 	    {
 	        int number = table[r][c-1];
-	        if(number > 99)
+	        if (number > 99)
 	        {
 	            printf(" %d", number);
 	        }
-	        else if(number > 9)
+	        else if (number > 9)
 	        {
 	            printf("  %d", number);
 	        }
@@ -76,6 +90,11 @@ int main()
 	    printf("\n");
 	}
 	
+	// Free dynamically allocated memory
+	for (int r = 0; r < size; r++)
+	{
+	    free(table[r]);
+	}
 	free(table);
 	
 	return 0;
