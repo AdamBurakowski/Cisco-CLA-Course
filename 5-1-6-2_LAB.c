@@ -51,41 +51,16 @@ int main()
 	printf("    ");
 	for (int i = 1; i <= size; i++)
 	{
-	    if (i < 10)
-	    {
-	    printf("   %d", i);
-	    }
-	    else
-	    {
-	        printf("  %d", i);
-	    }
+	    printf("%4d", i);
 	}
 	printf("\n");
 	for (int c = 1; c <= size; c++)
 	{
-	    if (c < 10)
-	    {
-	    printf("   %d", c);
-	    }
-	    else
-	    {
-	        printf("  %d", c);
-	    }
+	    printf("%4d", c);
 	    for (int r = 0; r < size; r++)
 	    {
 	        int number = table[r][c-1];
-	        if (number > 99)
-	        {
-	            printf(" %d", number);
-	        }
-	        else if (number > 9)
-	        {
-	            printf("  %d", number);
-	        }
-	        else
-	        {
-	            printf("   %d", number);
-	        }
+	            printf("%4d", number);
 	    }
 	    printf("\n");
 	}
